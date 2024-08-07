@@ -1,5 +1,5 @@
 # Diagrama UML iPhone
-
+``` mermaid
 classDiagram
     class ReprodutorMusical {
         +tocar()
@@ -25,3 +25,4 @@ classDiagram
     iPhone --> ReprodutorMusical
     iPhone --> AparelhoTelefonico
     iPhone --> NavegadorInternet
+```
