@@ -19,7 +19,7 @@ public abstract class Conta implements IConta {
 			saldo -= valor;
 			return true;
 		} else {
-			System.err.println("~~~~Nao ha saldo suficiente!~~~~");
+			System.err.println("~~~~ Nao ha saldo suficiente! ~~~~");
 			return false;
 		}
 	}

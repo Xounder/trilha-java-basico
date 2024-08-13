@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Banco {
 
@@ -18,21 +19,38 @@ public class Banco {
 		cliente.setContaCorrente(cc);
 		cliente.setContaPoupanca(poupanca);
 	}
-
-	public void transferir(Cliente cliente1, int numConta1, Cliente cliente2, int numConta2, double valor){
-		cliente1.getConta(numConta1).transferir(valor, cliente2.getConta(numConta2));
+	
+	// transferir usando o cliente e o tipo da conta
+	public void transferir(Cliente cliente1, int tipoConta1, Cliente cliente2, int tipoConta2, double valor){
+		cliente1.getConta(tipoConta1).transferir(valor, cliente2.getConta(tipoConta2));
 	}
 
-	public void sacar(Cliente cliente, int numConta, double valor){
-		cliente.getConta(numConta).sacar(valor);
+	// transferir usando o numero da conta que existe na Agencia
+	public void transferir(Cliente cliente1, int tipoConta1, int numeroConta, double valor){
+		Conta contaCliente1 = cliente1.getConta(tipoConta1);
+		if (numeroConta == contaCliente1.getNumero()){
+			System.err.println("~~~~ Não é possivel realizar transferencia para a mesma conta ~~~~");
+			return;
+		}
+
+		Optional<Conta> contaCliente2 = contas.stream().filter(n -> n.getNumero() == numeroConta).findFirst();
+		if (contaCliente2.isPresent()){
+			contaCliente1.transferir(valor, contaCliente2.get());
+		} else{
+			System.err.println("~~~~ Numero da Agencia ou Conta Invalidos! ~~~~");
+		}
 	}
 
-	public void depositar(Cliente cliente, int numConta, double valor){
-		cliente.getConta(numConta).depositar(valor);
+	public void sacar(Cliente cliente, int tipoConta, double valor){
+		cliente.getConta(tipoConta).sacar(valor);
 	}
 
-	public void imprimirExtrato(Cliente cliente, int numConta){
-		cliente.getConta(numConta).imprimirExtrato();
+	public void depositar(Cliente cliente, int tipoConta, double valor){
+		cliente.getConta(tipoConta).depositar(valor);
+	}
+
+	public void imprimirExtrato(Cliente cliente, int tipoConta){
+		cliente.getConta(tipoConta).imprimirExtrato();
 	}
 
 	public String getNome() {
